@@ -82,26 +82,28 @@ const Index = () => {
         onCategoryChange={setActiveCategory}
       />
       
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-2">
-            {activeCategory === "Tous" ? "Tous nos produits" : activeCategory}
+      <main className="container mx-auto px-6 py-16">
+        <div className="mb-16 text-center animate-fade-in">
+          <h2 className="text-2xl font-light tracking-wide mb-4">
+            {activeCategory === "Tous" ? "Collection" : activeCategory}
           </h2>
-          <p className="text-muted-foreground">
-            {filteredProducts.length} produit{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}
+          <div className="w-24 h-px bg-muted-foreground mx-auto mb-4"></div>
+          <p className="text-muted-foreground font-light">
+            {filteredProducts.length} {filteredProducts.length > 1 ? 'produits' : 'produit'}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+          {filteredProducts.map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} />
           ))}
         </div>
 
         {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">Aucun produit trouvé</p>
-            <p className="text-muted-foreground">Essayez de modifier votre recherche ou sélectionner une autre catégorie</p>
+          <div className="text-center py-24 animate-fade-in">
+            <p className="text-muted-foreground text-xl font-light mb-4">Aucun résultat</p>
+            <div className="w-16 h-px bg-muted-foreground mx-auto mb-4"></div>
+            <p className="text-muted-foreground font-light">Modifiez votre recherche</p>
           </div>
         )}
       </main>

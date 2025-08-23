@@ -1,6 +1,5 @@
+import { useState } from "react";
 import { MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 export interface Product {
   id: number;
@@ -13,9 +12,12 @@ export interface Product {
 
 interface ProductCardProps {
   product: Product;
+  index: number;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, index }: ProductCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleWhatsAppClick = () => {
     const message = `Bonjour! Je suis intéressé(e) par: ${product.name} - ${product.price}€`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -23,39 +25,45 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/20">
-      <CardContent className="p-0">
-        <div className="aspect-square overflow-hidden rounded-t-lg">
+    <div 
+      className="group cursor-pointer animate-fade-in-up"
+      style={{ animationDelay: `${index * 100}ms` }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative overflow-hidden transition-all duration-700 hover:scale-105 hover:-translate-y-2">
+        <div className="aspect-square overflow-hidden bg-gradient-minimal">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
           />
         </div>
-        <div className="p-4">
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2">{product.name}</h3>
-          <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{product.description}</p>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-              {product.price}€
-            </span>
-            <span className="text-xs text-muted-foreground px-2 py-1 bg-secondary rounded-full">
-              {product.category}
-            </span>
+        
+        <div className={`absolute inset-0 bg-background/95 backdrop-blur-sm transition-all duration-500 flex flex-col justify-center items-center p-8 ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`}>
+          <div className="text-center space-y-4 animate-scale-in">
+            <h3 className="text-xl font-light tracking-wide">{product.name}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">{product.description}</p>
+            <div className="text-2xl font-light tracking-wider">{product.price}€</div>
+            
+            <button
+              onClick={handleWhatsAppClick}
+              className="group/btn flex items-center gap-2 px-8 py-3 bg-accent text-accent-foreground transition-all duration-500 hover:scale-105 hover:shadow-hover animate-bounce-soft"
+            >
+              <MessageCircle className="h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-12" />
+              <span className="font-light tracking-wide">Commander</span>
+            </button>
           </div>
         </div>
-      </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <Button
-          onClick={handleWhatsAppClick}
-          className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground"
-          size="lg"
-        >
-          <MessageCircle className="mr-2 h-4 w-4" />
-          Commander sur WhatsApp
-        </Button>
-      </CardFooter>
-    </Card>
+      </div>
+      
+      <div className="mt-6 text-center space-y-2 animate-fade-in">
+        <h3 className="text-lg font-light tracking-wide">{product.name}</h3>
+        <div className="text-xl font-light tracking-wider text-muted-foreground">{product.price}€</div>
+      </div>
+    </div>
   );
 };
 
