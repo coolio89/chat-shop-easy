@@ -1,60 +1,69 @@
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
-import CategoryFilter from "@/components/CategoryFilter";
 import ProductCard, { Product } from "@/components/ProductCard";
 import smartphoneImg from "@/assets/smartphone.jpg";
+import smartphoneBackImg from "@/assets/smartphone-back.jpg";
 import headphonesImg from "@/assets/headphones.jpg";
+import headphonesSideImg from "@/assets/headphones-side.jpg";
 import laptopImg from "@/assets/laptop.jpg";
+import laptopClosedImg from "@/assets/laptop-closed.jpg";
 import tshirtImg from "@/assets/tshirt.jpg";
+import tshirtHangingImg from "@/assets/tshirt-hanging.jpg";
 
 const mockProducts: Product[] = [
   {
     id: 1,
     name: "iPhone 15 Pro Max",
-    price: 1199,
-    image: smartphoneImg,
+    price: 750000,
+    images: [smartphoneImg, smartphoneBackImg],
     category: "Électronique",
-    description: "Le smartphone le plus avancé avec puce A17 Pro et caméra 48MP"
+    description: "Le smartphone le plus avancé avec puce A17 Pro et caméra 48MP",
+    details: ["Écran 6.7 pouces Super Retina XDR", "Puce A17 Pro", "Caméra 48MP", "Batterie longue durée", "5G ultra-rapide"]
   },
   {
     id: 2,
     name: "AirPods Pro (2ème gen)",
-    price: 279,
-    image: headphonesImg,
+    price: 175000,
+    images: [headphonesImg, headphonesSideImg],
     category: "Électronique",
-    description: "Écouteurs sans fil avec réduction de bruit active"
+    description: "Écouteurs sans fil avec réduction de bruit active",
+    details: ["Réduction de bruit active", "Audio spatial", "Résistance à l'eau IPX4", "Jusqu'à 30h d'écoute", "Compatible Siri"]
   },
   {
     id: 3,
     name: "MacBook Air M2",
-    price: 1299,
-    image: laptopImg,
+    price: 815000,
+    images: [laptopImg, laptopClosedImg],
     category: "Électronique",
-    description: "Ordinateur portable ultra-fin avec puce M2 et écran Liquid Retina"
+    description: "Ordinateur portable ultra-fin avec puce M2 et écran Liquid Retina",
+    details: ["Puce M2 8 cœurs", "Écran Liquid Retina 13.6 pouces", "18h d'autonomie", "Ultra-fin 11.3mm", "Caméra FaceTime HD 1080p"]
   },
   {
     id: 4,
     name: "T-shirt Premium Coton",
-    price: 29,
-    image: tshirtImg,
+    price: 18000,
+    images: [tshirtImg, tshirtHangingImg],
     category: "Mode",
-    description: "T-shirt en coton bio premium, coupe moderne et confortable"
+    description: "T-shirt en coton bio premium, coupe moderne et confortable",
+    details: ["100% coton bio", "Coupe moderne", "Résistant au lavage", "Tailles S à XXL", "Certifié OEKO-TEX"]
   },
   {
     id: 5,
     name: "Casque Gaming Pro",
-    price: 159,
-    image: headphonesImg,
+    price: 99000,
+    images: [headphonesImg, headphonesSideImg],
     category: "Gaming",
-    description: "Casque gaming avec micro détachable et son surround 7.1"
+    description: "Casque gaming avec micro détachable et son surround 7.1",
+    details: ["Son surround 7.1", "Micro antibruit détachable", "Coussinets en mousse mémoire", "Compatible PC/Console", "Éclairage RGB"]
   },
   {
     id: 6,
     name: "Smartphone Android Flagship",
-    price: 899,
-    image: smartphoneImg,
+    price: 565000,
+    images: [smartphoneImg, smartphoneBackImg],
     category: "Électronique",
-    description: "Smartphone Android haut de gamme avec écran 120Hz et triple caméra"
+    description: "Smartphone Android haut de gamme avec écran 120Hz et triple caméra",
+    details: ["Écran AMOLED 120Hz", "Triple caméra 108MP", "Charge rapide 65W", "8GB RAM + 256GB", "Android 14"]
   }
 ];
 
@@ -75,8 +84,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      <CategoryFilter 
+      <Header 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery}
         categories={categories}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
