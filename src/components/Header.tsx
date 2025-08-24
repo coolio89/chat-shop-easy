@@ -60,13 +60,18 @@ const Header = ({ searchQuery, onSearchChange, categories, activeCategory, onCat
         
         <div className="w-full max-w-lg mx-auto animate-fade-in-up">
           <div className="relative group">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-all duration-300 group-hover:text-foreground" />
+            <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-all duration-300 group-hover:text-foreground group-focus-within:text-foreground group-focus-within:scale-110" />
             <Input
-              placeholder="Rechercher..."
+              placeholder="Rechercher un produit..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="pl-12 py-6 text-lg border-0 bg-transparent border-b-2 border-border focus:border-foreground rounded-none transition-all duration-500 focus:shadow-none placeholder:text-muted-foreground/60"
+              className="pl-14 pr-5 py-6 text-lg bg-muted/30 hover:bg-muted/50 focus:bg-muted/60 border-0 rounded-full transition-all duration-500 focus:shadow-lg focus:shadow-primary/10 placeholder:text-muted-foreground/60 backdrop-blur-sm"
             />
+            {searchQuery && (
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 animate-fade-in">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              </div>
+            )}
           </div>
         </div>
       </div>

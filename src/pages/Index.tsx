@@ -94,13 +94,16 @@ const Index = () => {
       
       <main className="container mx-auto px-6 py-16">
         <div className="mb-16 text-center animate-fade-in">
-          <h2 className="text-2xl font-light tracking-wide mb-4">
+          <h2 className="text-2xl font-light tracking-wide mb-4 transition-all duration-300">
             {activeCategory === "Tous" ? "Collection" : activeCategory}
           </h2>
-          <div className="w-24 h-px bg-muted-foreground mx-auto mb-4"></div>
-          <p className="text-muted-foreground font-light">
-            {filteredProducts.length} {filteredProducts.length > 1 ? 'produits' : 'produit'}
-          </p>
+          <div className="w-24 h-px bg-muted-foreground mx-auto mb-4 animate-slide-in"></div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/20 rounded-full backdrop-blur-sm animate-scale-in">
+            <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+            <p className="text-muted-foreground font-light text-sm">
+              {filteredProducts.length} {filteredProducts.length > 1 ? 'produits' : 'produit'}
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">

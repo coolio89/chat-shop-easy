@@ -86,8 +86,8 @@ export default {
 					'100%': { opacity: '1', transform: 'translateY(0)' }
 				},
 				'slide-in': {
-					'0%': { transform: 'translateX(-100%)', opacity: '0' },
-					'100%': { transform: 'translateX(0)', opacity: '1' }
+					'0%': { width: '0', opacity: '0' },
+					'100%': { width: '6rem', opacity: '1' }
 				},
 				'scale-in': {
 					'0%': { transform: 'scale(0.9)', opacity: '0' },
