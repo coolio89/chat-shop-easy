@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Search, Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,13 +13,20 @@ interface HeaderProps {
 }
 
 const Header = ({ searchQuery, onSearchChange, categories, activeCategory, onCategoryChange }: HeaderProps) => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const handleCategorySelect = (category: string) => {
+    onCategoryChange(category);
+    setIsSheetOpen(false); // Ferme automatiquement le panneau
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md animate-fade-in">
       <div className="container mx-auto px-6 py-8">
         <div className="flex items-center justify-between mb-8">
-          <Sheet>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="hover:bg-transparent">
+              <Button variant="ghost" size="sm" className="hover:bg-transparent transition-all duration-300 hover:scale-110">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
@@ -29,14 +37,14 @@ const Header = ({ searchQuery, onSearchChange, categories, activeCategory, onCat
                   {categories.map((category, index) => (
                     <button
                       key={category}
-                      onClick={() => onCategoryChange(category)}
+                      onClick={() => handleCategorySelect(category)}
                       style={{ animationDelay: `${index * 50}ms` }}
                       className={`
                         w-full text-left px-4 py-3 text-sm font-light tracking-wide transition-all duration-300 
-                        animate-fade-in-up hover:translate-x-2
+                        animate-fade-in-up hover:translate-x-2 rounded-lg
                         ${activeCategory === category 
-                          ? 'text-foreground bg-muted/50' 
-                          : 'text-muted-foreground hover:text-foreground'
+                          ? 'text-foreground bg-muted/50 scale-105' 
+                          : 'text-muted-foreground hover:text-foreground hover:bg-muted/20'
                         }
                       `}
                     >
