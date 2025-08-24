@@ -104,6 +104,10 @@ export default {
 				'bounce-soft': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-5px)' }
+				},
+				'scroll-infinite': {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(-33.333%)' }
 				}
 			},
 			animation: {
@@ -115,7 +119,8 @@ export default {
 				'scale-in': 'scale-in 0.4s ease-out',
 				'float': 'float 3s ease-in-out infinite',
 				'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
-				'bounce-soft': 'bounce-soft 2s ease-in-out infinite'
+				'bounce-soft': 'bounce-soft 2s ease-in-out infinite',
+				'scroll-infinite': 'scroll-infinite 30s linear infinite'
 			}
 		}
 	},

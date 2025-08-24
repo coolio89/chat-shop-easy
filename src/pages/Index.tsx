@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import ProductCard, { Product } from "@/components/ProductCard";
+import NewProductsSection from "@/components/NewProductsSection";
 import smartphoneImg from "@/assets/smartphone.jpg";
 import smartphoneBackImg from "@/assets/smartphone-back.jpg";
 import headphonesImg from "@/assets/headphones.jpg";
@@ -72,6 +73,9 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("Tous");
 
   const categories = ["Tous", ...Array.from(new Set(mockProducts.map(p => p.category)))];
+  
+  // Products récents pour la section nouveautés
+  const newProducts = mockProducts.slice(0, 4);
 
   const filteredProducts = useMemo(() => {
     return mockProducts.filter(product => {
@@ -83,7 +87,7 @@ const Index = () => {
   }, [searchQuery, activeCategory]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background transition-colors duration-300">
       <Header 
         searchQuery={searchQuery} 
         onSearchChange={setSearchQuery}
@@ -91,6 +95,9 @@ const Index = () => {
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
+      
+      {/* Section Nouveautés */}
+      <NewProductsSection products={newProducts} />
       
       <main className="container mx-auto px-6 py-16">
         <div className="mb-16 text-center animate-fade-in">

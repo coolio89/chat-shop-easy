@@ -3,6 +3,7 @@ import { Search, Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import ThemeToggle from "./ThemeToggle";
 
 interface HeaderProps {
   searchQuery: string;
@@ -63,7 +64,7 @@ const Header = ({ searchQuery, onSearchChange, categories, activeCategory, onCat
             <div className="w-12 h-px bg-foreground mx-auto animate-slide-in mt-2"></div>
           </div>
 
-          <div className="w-6"></div>
+          <ThemeToggle />
         </div>
         
         <div className="w-full max-w-lg mx-auto animate-fade-in-up">
