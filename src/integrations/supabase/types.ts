@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      product_details: {
+        Row: {
+          created_at: string
+          detail_text: string
+          display_order: number
+          id: string
+          product_id: string
+        }
+        Insert: {
+          created_at?: string
+          detail_text: string
+          display_order?: number
+          id?: string
+          product_id: string
+        }
+        Update: {
+          created_at?: string
+          detail_text?: string
+          display_order?: number
+          id?: string
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_details_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_images: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          display_order: number
+          id: string
+          image_url: string
+          product_id: string
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url: string
+          product_id: string
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category_id: string
+          created_at: string
+          description: string
+          id: string
+          is_featured: boolean
+          is_new: boolean
+          name: string
+          price: number
+          stock_quantity: number
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          description: string
+          id?: string
+          is_featured?: boolean
+          is_new?: boolean
+          name: string
+          price: number
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_featured?: boolean
+          is_new?: boolean
+          name?: string
+          price?: number
+          stock_quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
