@@ -3,13 +3,16 @@ import { MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   images: string[];
   category: string;
   description: string;
   details: string[];
+  is_featured: boolean;
+  is_new: boolean;
+  stock_quantity: number;
 }
 
 interface ProductCardProps {
