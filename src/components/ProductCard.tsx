@@ -58,18 +58,6 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
           />
           
-          {/* Floating WhatsApp button */}
-          <div className={`absolute top-4 right-4 transition-all duration-500 ${
-            isHovered ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-90'
-          }`}>
-            <Button
-              onClick={handleWhatsAppClick}
-              size="sm"
-              className="bg-green-500 hover:bg-green-600 text-white rounded-full w-10 h-10 p-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 animate-bounce-soft"
-            >
-              <MessageCircle className="h-4 w-4" />
-            </Button>
-          </div>
           
           {/* Enhanced image navigation */}
           {product.images.length > 1 && (
