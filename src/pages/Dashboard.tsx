@@ -1,13 +1,43 @@
 import { useProducts } from "@/hooks/useProducts";
+import { useProductManagement } from "@/hooks/useProductManagement";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Package, Grid3X3, Image, Settings } from "lucide-react";
+import { Plus, Package, Grid3X3, Image, Settings, Edit, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
 import Header from "@/components/Header";
+import ProductForm from "@/components/ProductForm";
+import { Product } from "@/hooks/useProducts";
 
 const Dashboard = () => {
-  const { products, categories, loading, error } = useProducts();
+  const { products, categories, loading, error, refetch } = useProducts();
+  const { deleteProduct, deleteCategory, loading: managementLoading } = useProductManagement();
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showProductForm, setShowProductForm] = useState(false);
+
+  const handleProductSuccess = () => {
+    setShowProductForm(false);
+    setSelectedProduct(null);
+    refetch();
+  };
+
+  const handleDeleteProduct = async (productId: string) => {
+    await deleteProduct(productId);
+    refetch();
+  };
+
+  const handleDeleteCategory = async (categoryId: string) => {
+    await deleteCategory(categoryId);
+    refetch();
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setShowProductForm(true);
+  };
 
   if (loading) {
     return (
@@ -51,7 +81,10 @@ const Dashboard = () => {
                 <h1 className="text-2xl font-light tracking-wide">Dashboard</h1>
                 <p className="text-muted-foreground text-sm">Gestion de votre boutique</p>
               </div>
-              <Button className="flex items-center gap-2">
+              <Button 
+                className="flex items-center gap-2"
+                onClick={() => setShowProductForm(true)}
+              >
                 <Plus className="h-4 w-4" />
                 Nouveau produit
               </Button>
@@ -150,12 +183,39 @@ const Dashboard = () => {
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <Button variant="outline" size="sm">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleEditProduct(product)}
+                          >
+                            <Edit className="h-4 w-4 mr-2" />
                             Modifier
                           </Button>
-                          <Button variant="destructive" size="sm">
-                            Supprimer
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="destructive" size="sm">
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Supprimer
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Supprimer le produit</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Êtes-vous sûr de vouloir supprimer "{product.name}" ? Cette action est irréversible.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleDeleteProduct(product.id)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Supprimer
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     ))}
@@ -184,11 +244,34 @@ const Dashboard = () => {
                         </div>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm">
+                            <Edit className="h-4 w-4 mr-2" />
                             Modifier
                           </Button>
-                          <Button variant="destructive" size="sm">
-                            Supprimer
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="destructive" size="sm">
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Supprimer
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Supprimer la catégorie</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Êtes-vous sûr de vouloir supprimer "{category.name}" ? Cette action est irréversible.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => handleDeleteCategory(category.id)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Supprimer
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     ))}
@@ -239,6 +322,21 @@ const Dashboard = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Product Form Dialog */}
+      <Dialog open={showProductForm} onOpenChange={setShowProductForm}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <ProductForm
+            categories={categories}
+            product={selectedProduct}
+            onSuccess={handleProductSuccess}
+            onCancel={() => {
+              setShowProductForm(false);
+              setSelectedProduct(null);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
