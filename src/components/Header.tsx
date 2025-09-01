@@ -1,41 +1,58 @@
-import { Link, useLocation } from "react-router-dom";
-import { Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "./ui/button";
+import { LogOut, User } from "lucide-react";
+import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
-const Header = () => {
-  const location = useLocation();
-  const isDashboard = location.pathname === '/dashboard';
+export default function Header() {
+  const { user, signOut, profile } = useAuth();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link to="/" className="text-2xl font-light tracking-wide hover:text-primary transition-colors">
-            MomoShop
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <div className="mr-4 flex">
+          <Link className="mr-6 flex items-center space-x-2" to="/">
+            <span className="hidden font-bold sm:inline-block">
+              Modern Store
+            </span>
           </Link>
         </div>
-        
-        <div className="flex items-center gap-4">
-          {!isDashboard ? (
-            <Link to="/dashboard">
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            {user && (
+              <Link
+                className="transition-colors hover:text-foreground/80 text-foreground/60"
+                to="/dashboard"
+              >
                 Dashboard
+              </Link>
+            )}
+          </nav>
+          <div className="flex items-center space-x-2">
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 text-sm">
+                  <User className="h-4 w-4" />
+                  <span>{profile?.full_name || user.email}</span>
+                  {profile?.role === 'admin' && (
+                    <span className="text-xs bg-primary text-primary-foreground px-1 rounded">
+                      Admin
+                    </span>
+                  )}
+                </div>
+                <Button variant="ghost" size="sm" onClick={signOut}>
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
+            ) : (
+              <Button asChild variant="outline" size="sm">
+                <Link to="/auth">Sign In</Link>
               </Button>
-            </Link>
-          ) : (
-            <Link to="/">
-              <Button variant="outline" size="sm">
-                Retour à la boutique
-              </Button>
-            </Link>
-          )}
-          <ThemeToggle />
+            )}
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

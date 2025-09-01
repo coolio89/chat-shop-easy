@@ -1,68 +1,124 @@
-import { useProducts } from "@/hooks/useProducts";
-import { useProductManagement } from "@/hooks/useProductManagement";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Plus, Pencil, Trash2, Package, Grid3X3, Image, Settings, Edit } from "lucide-react";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Package, Grid3X3, Image, Settings, Edit, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
-import Header from "@/components/Header";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProductForm from "@/components/ProductForm";
-import { Product } from "@/hooks/useProducts";
+import { useProductManagement } from "@/hooks/useProductManagement";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
-const Dashboard = () => {
-  const { products, categories, loading, error, refetch } = useProducts();
-  const { deleteProduct, deleteCategory, loading: managementLoading } = useProductManagement();
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category_id: string;
+  is_featured: boolean;
+  is_new: boolean;
+  stock_quantity: number;
+  created_at: string;
+  updated_at: string;
+  images: string[];
+  details: string[];
+}
+
+interface Category {
+  id: string;
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+function DashboardContent() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showProductForm, setShowProductForm] = useState(false);
+  const { deleteProduct, deleteCategory, loading: managementLoading } = useProductManagement();
+
+  const { data: products = [], refetch: refetchProducts } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select('*');
+
+      if (productsError) throw productsError;
+
+      const productsWithDetails = await Promise.all(
+        productsData.map(async (product) => {
+          const { data: imagesData } = await supabase
+            .from('product_images')
+            .select('image_url')
+            .eq('product_id', product.id)
+            .order('display_order');
+
+          const { data: detailsData } = await supabase
+            .from('product_details')
+            .select('detail_text')
+            .eq('product_id', product.id)
+            .order('display_order');
+
+          return {
+            ...product,
+            images: imagesData?.map(img => img.image_url) || [],
+            details: detailsData?.map(detail => detail.detail_text) || []
+          };
+        })
+      );
+
+      return productsWithDetails as Product[];
+    }
+  });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('name');
+
+      if (error) throw error;
+      return data as Category[];
+    }
+  });
 
   const handleProductSuccess = () => {
     setShowProductForm(false);
     setSelectedProduct(null);
-    refetch();
+    refetchProducts();
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    await deleteProduct(productId);
-    refetch();
+    try {
+      await deleteProduct(productId);
+      toast.success("Produit supprimé avec succès");
+      refetchProducts();
+    } catch (error) {
+      toast.error("Erreur lors de la suppression du produit");
+    }
   };
 
   const handleDeleteCategory = async (categoryId: string) => {
-    await deleteCategory(categoryId);
-    refetch();
+    try {
+      await deleteCategory(categoryId);
+      toast.success("Catégorie supprimée avec succès");
+    } catch (error) {
+      toast.error("Erreur lors de la suppression de la catégorie");
+    }
   };
 
   const handleEditProduct = (product: Product) => {
     setSelectedProduct(product);
     setShowProductForm(true);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="pt-20 flex items-center justify-center min-h-[calc(100vh-80px)]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="pt-20 flex items-center justify-center min-h-[calc(100vh-80px)]">
-          <div className="text-center">
-            <p className="text-destructive mb-4">{error}</p>
-            <Button onClick={() => window.location.reload()}>Réessayer</Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const totalProducts = products.length;
   const newProducts = products.filter(p => p.is_new).length;
@@ -339,6 +395,12 @@ const Dashboard = () => {
       </Dialog>
     </div>
   );
-};
+}
 
-export default Dashboard;
+export default function Dashboard() {
+  return (
+    <ProtectedRoute requireAdmin>
+      <DashboardContent />
+    </ProtectedRoute>
+  );
+}
