@@ -22,33 +22,9 @@ interface Order {
 }
 
 const UserDashboard = () => {
-  // Mock data - À remplacer par des données réelles
-  const [cartItems] = useState<CartItem[]>([
-    { id: '1', name: 'iPhone 15 Pro', price: 850000, quantity: 1, image: '/placeholder.svg' },
-    { id: '2', name: 'AirPods Pro', price: 125000, quantity: 2, image: '/placeholder.svg' }
-  ]);
-
-  const [orders] = useState<Order[]>([
-    {
-      id: 'CMD-001',
-      date: '2024-01-15',
-      total: 450000,
-      status: 'delivered',
-      items: [{ id: '3', name: 'MacBook Air', price: 450000, quantity: 1, image: '/placeholder.svg' }]
-    },
-    {
-      id: 'CMD-002',
-      date: '2024-01-10',
-      total: 250000,
-      status: 'shipped',
-      items: [{ id: '4', name: 'iPad Air', price: 250000, quantity: 1, image: '/placeholder.svg' }]
-    }
-  ]);
-
-  const [wishlistItems] = useState<CartItem[]>([
-    { id: '5', name: 'MacBook Pro 16"', price: 1200000, quantity: 1, image: '/placeholder.svg' },
-    { id: '6', name: 'Apple Watch Ultra', price: 320000, quantity: 1, image: '/placeholder.svg' }
-  ]);
+  const [cartItems] = useState<CartItem[]>([]);
+  const [orders] = useState<Order[]>([]);
+  const [wishlistItems] = useState<CartItem[]>([]);
 
   const getTotalCart = () => cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
