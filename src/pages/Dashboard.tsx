@@ -12,6 +12,7 @@ import ProductForm from "@/components/ProductForm";
 import { useProductManagement } from "@/hooks/useProductManagement";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import CategoryManager from "@/components/CategoryManager";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface Product {
@@ -281,59 +282,7 @@ function DashboardContent() {
             </TabsContent>
 
             <TabsContent value="categories">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Gestion des Catégories</CardTitle>
-                  <CardDescription>
-                    Organisez vos produits par catégories
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {categories.map((category) => (
-                      <div key={category.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div>
-                          <h3 className="font-medium">{category.name}</h3>
-                          {category.description && (
-                            <p className="text-sm text-muted-foreground">{category.description}</p>
-                          )}
-                        </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm">
-                            <Edit className="h-4 w-4 mr-2" />
-                            Modifier
-                          </Button>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="destructive" size="sm">
-                                <Trash2 className="h-4 w-4 mr-2" />
-                                Supprimer
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Supprimer la catégorie</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Êtes-vous sûr de vouloir supprimer "{category.name}" ? Cette action est irréversible.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => handleDeleteCategory(category.id)}
-                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                >
-                                  Supprimer
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <CategoryManager />
             </TabsContent>
 
             <TabsContent value="settings">

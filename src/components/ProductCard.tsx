@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -21,6 +22,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, index }: ProductCardProps) => {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -44,6 +46,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
       style={{ animationDelay: `${index * 120}ms` }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => navigate(`/product/${product.id}`)}
     >
       {/* Subtle glow effect */}
       <div className={`absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/5 rounded-2xl blur-xl transition-all duration-700 ${
@@ -65,7 +68,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={prevImage}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
                 className="bg-background/90 backdrop-blur-md hover:bg-background h-8 w-8 p-0 rounded-full border border-border/50 hover:scale-110 transition-all duration-300"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -73,7 +79,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={nextImage}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
                 className="bg-background/90 backdrop-blur-md hover:bg-background h-8 w-8 p-0 rounded-full border border-border/50 hover:scale-110 transition-all duration-300"
               >
                 <ChevronRight className="h-4 w-4" />
@@ -128,7 +137,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
             
             {/* Enhanced WhatsApp button */}
             <Button
-              onClick={handleWhatsAppClick}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleWhatsAppClick();
+              }}
               className="group/btn flex items-center gap-3 px-8 py-3 bg-green-500 hover:bg-green-600 text-white transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 rounded-full border border-green-400/20"
             >
               <MessageCircle className="h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-12" />

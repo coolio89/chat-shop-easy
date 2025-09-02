@@ -22,9 +22,9 @@ export default function Header() {
             {user && (
               <Link
                 className="transition-colors hover:text-foreground/80 text-foreground/60"
-                to="/dashboard"
+                to={profile?.role === 'admin' ? '/dashboard' : '/user-dashboard'}
               >
-                Dashboard
+                {profile?.role === 'admin' ? 'Dashboard Admin' : 'Mon Espace'}
               </Link>
             )}
           </nav>
