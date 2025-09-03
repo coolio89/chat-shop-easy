@@ -1,4 +1,5 @@
 import { Product } from "@/hooks/useProducts";
+import { MessageCircle } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -12,6 +13,16 @@ interface NewProductsSectionProps {
 }
 
 const NewProductsSection = ({ products }: NewProductsSectionProps) => {
+  const handleProductClick = (product: Product) => {
+    // Use shop's WhatsApp number if available, otherwise use default
+    const whatsappNumber = product.shop?.whatsapp_number || '22967676767';
+    const message = encodeURIComponent(
+      `Salut! Je suis intéressé par le produit "${product.name}" au prix de ${product.price.toLocaleString()} XOF. Pouvez-vous me donner plus d'informations?`
+    );
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <section className="py-16 bg-muted/20">
       <div className="container mx-auto px-6 mb-8">
@@ -32,7 +43,10 @@ const NewProductsSection = ({ products }: NewProductsSectionProps) => {
           <CarouselContent className="-ml-2 md:-ml-4">
             {products.map((product) => (
               <CarouselItem key={product.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                <div className="group cursor-pointer">
+                <div 
+                  className="group cursor-pointer"
+                  onClick={() => handleProductClick(product)}
+                >
                   <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-2xl overflow-hidden hover:border-border/60 transition-all duration-500 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10">
                     <div className="aspect-[4/3] overflow-hidden relative">
                       <img
@@ -44,6 +58,21 @@ const NewProductsSection = ({ products }: NewProductsSectionProps) => {
                       {/* New badge */}
                       <div className="absolute top-3 left-3 px-3 py-1 bg-primary text-primary-foreground text-xs font-light tracking-wide rounded-full animate-pulse">
                         Nouveau
+                      </div>
+
+                      {/* Shop name if available */}
+                      {product.shop?.name && (
+                        <div className="absolute top-3 right-3 px-3 py-1 bg-background/80 backdrop-blur-sm text-xs font-light tracking-wide rounded-full">
+                          {product.shop.name}
+                        </div>
+                      )}
+
+                      {/* WhatsApp Overlay - Show on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                        <div className="text-center text-foreground">
+                          <MessageCircle className="w-8 h-8 mx-auto mb-2 text-primary" />
+                          <p className="text-xs font-light tracking-wide">Commander</p>
+                        </div>
                       </div>
                     </div>
                     

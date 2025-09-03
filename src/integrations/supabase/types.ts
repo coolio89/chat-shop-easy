@@ -21,6 +21,7 @@ export type Database = {
           id: string
           name: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -28,6 +29,7 @@ export type Database = {
           id?: string
           name: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -35,6 +37,7 @@ export type Database = {
           id?: string
           name?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -115,6 +118,7 @@ export type Database = {
           is_new: boolean
           name: string
           price: number
+          shop_id: string | null
           stock_quantity: number
           updated_at: string
         }
@@ -127,6 +131,7 @@ export type Database = {
           is_new?: boolean
           name: string
           price: number
+          shop_id?: string | null
           stock_quantity?: number
           updated_at?: string
         }
@@ -139,6 +144,7 @@ export type Database = {
           is_new?: boolean
           name?: string
           price?: number
+          shop_id?: string | null
           stock_quantity?: number
           updated_at?: string
         }
@@ -148,6 +154,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
             referencedColumns: ["id"]
           },
         ]
@@ -160,6 +173,7 @@ export type Database = {
           id: string
           role: string | null
           updated_at: string | null
+          whatsapp_number: string | null
         }
         Insert: {
           created_at?: string | null
@@ -168,6 +182,7 @@ export type Database = {
           id: string
           role?: string | null
           updated_at?: string | null
+          whatsapp_number?: string | null
         }
         Update: {
           created_at?: string | null
@@ -176,6 +191,40 @@ export type Database = {
           id?: string
           role?: string | null
           updated_at?: string | null
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
+      shops: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+          user_id: string
+          whatsapp_number: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+          user_id: string
+          whatsapp_number?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+          user_id?: string
+          whatsapp_number?: string | null
         }
         Relationships: []
       }

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import CategoryManager from "@/components/CategoryManager";
+import ShopManager from "@/components/ShopManager";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Pencil, Trash2, Package, Grid3X3, Image, Settings, Edit } from "lucide-react";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -194,8 +194,9 @@ function DashboardContent() {
           </div>
 
           {/* Main Content */}
-          <Tabs defaultValue="products" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+          <Tabs defaultValue="shop" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="shop">Boutique</TabsTrigger>
               <TabsTrigger value="products">Produits</TabsTrigger>
               <TabsTrigger value="categories">Catégories</TabsTrigger>
               <TabsTrigger value="settings">Paramètres</TabsTrigger>

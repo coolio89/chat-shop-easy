@@ -12,6 +12,11 @@ export interface Product {
   is_featured: boolean;
   is_new: boolean;
   stock_quantity: number;
+  shop?: {
+    id: string;
+    name: string;
+    whatsapp_number?: string;
+  };
 }
 
 export interface Category {
@@ -30,7 +35,7 @@ export const useProducts = () => {
     try {
       setLoading(true);
       
-      // Fetch products with their categories, images, and details
+      // Fetch products with their categories, images, details, and shop info
       const { data: productsData, error: productsError } = await supabase
         .from('products')
         .select(`
@@ -43,7 +48,8 @@ export const useProducts = () => {
           stock_quantity,
           categories(name),
           product_images(image_url, alt_text, display_order),
-          product_details(detail_text, display_order)
+          product_details(detail_text, display_order),
+          shops(id, name, whatsapp_number)
         `)
         .order('created_at', { ascending: false });
 
@@ -64,7 +70,12 @@ export const useProducts = () => {
           ?.map(detail => detail.detail_text) || [],
         is_featured: product.is_featured,
         is_new: product.is_new,
-        stock_quantity: product.stock_quantity
+        stock_quantity: product.stock_quantity,
+        shop: product.shops ? {
+          id: product.shops.id,
+          name: product.shops.name,
+          whatsapp_number: product.shops.whatsapp_number
+        } : undefined
       })) || [];
 
       setProducts(transformedProducts);
@@ -77,9 +88,16 @@ export const useProducts = () => {
 
   const fetchCategories = async () => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setCategories([]);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('categories')
         .select('id, name, description')
+        .eq('user_id', user.id)
         .order('name');
 
       if (error) throw error;

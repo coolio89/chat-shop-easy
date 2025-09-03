@@ -27,30 +27,31 @@ const CategoryManager = () => {
     setFormData({ name: '', description: '' });
   };
 
-  const handleCreate = async () => {
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!formData.name.trim()) {
-      toast.error('Le nom de la catégorie est requis');
+      toast.error("Le nom de la catégorie est requis");
       return;
     }
 
-    setLoading(true);
     try {
+      setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Utilisateur non connecté');
+
       const { error } = await supabase
         .from('categories')
-        .insert({
-          name: formData.name.trim(),
-          description: formData.description.trim() || null
-        });
+        .insert([{ ...formData, user_id: user.id }]);
 
       if (error) throw error;
 
-      toast.success('Catégorie créée avec succès');
+      toast.success("Catégorie créée avec succès!");
       setIsCreateDialogOpen(false);
       resetForm();
       refetch();
     } catch (error) {
-      console.error('Erreur lors de la création:', error);
-      toast.error('Erreur lors de la création de la catégorie');
+      toast.error("Erreur lors de la création de la catégorie");
+      console.error(error);
     } finally {
       setLoading(false);
     }
