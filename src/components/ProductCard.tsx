@@ -37,7 +37,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
       style={{ animationDelay: `${index * 0.1}s` }}
       onClick={handleProductClick}
     >
-      <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-2xl overflow-hidden hover:border-border/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+      <div className="bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm border-2 border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-elegant group-hover:scale-[1.02]">
         {/* Image Container */}
         <div className="aspect-[4/3] overflow-hidden relative">
           <img
@@ -68,11 +68,13 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
           )}
 
           {/* Details Overlay - Show on Hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
             <div className="text-center text-foreground">
-              <MessageCircle className="w-12 h-12 mx-auto mb-3 text-primary border-2 border-primary rounded-full p-2" />
-              <p className="text-sm font-light tracking-wide">Voir les détails</p>
-              <p className="text-xs text-muted-foreground mt-1">du produit</p>
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full flex items-center justify-center border-2 border-primary/30">
+                <MessageCircle className="w-8 h-8 text-primary" />
+              </div>
+              <p className="text-sm font-light tracking-wide bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Voir les détails</p>
+              <p className="text-xs text-muted-foreground mt-1">Cliquez pour plus d'infos</p>
             </div>
           </div>
         </div>
