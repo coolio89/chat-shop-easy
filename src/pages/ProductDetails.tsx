@@ -4,7 +4,8 @@ import { ArrowLeft, ShoppingCart, MessageCircle, ChevronLeft, ChevronRight } fro
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
-import { useProducts, Product } from '@/hooks/useProducts';
+import { useProducts } from '@/hooks/useProducts';
+import { Product } from '@/components/ProductCard';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -22,8 +23,10 @@ const ProductDetails = () => {
 
   const handleWhatsAppClick = () => {
     if (product) {
+      // Use shop's WhatsApp number if available, otherwise use default
+      const whatsappNumber = product.shop?.whatsapp_number || '22967676767';
       const message = `Bonjour! Je suis intéressé(e) par: ${product.name} - ${product.price.toLocaleString()} XOF`;
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
     }
   };
@@ -61,8 +64,8 @@ const ProductDetails = () => {
         <div className="pt-20 container mx-auto px-6 py-16">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Produit non trouvé</h1>
-            <Button onClick={() => navigate('/')} variant="outline">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+            <Button onClick={() => navigate('/')} variant="outline" className="border-2">
+              <ArrowLeft className="h-4 w-4 mr-2 border rounded-full p-0.5" />
               Retour à l'accueil
             </Button>
           </div>
@@ -80,14 +83,20 @@ const ProductDetails = () => {
           <div className="mb-8">
             <Button
               onClick={() => navigate('/')}
-              variant="ghost"
-              className="mb-4"
+              variant="outline"
+              className="mb-4 border-2"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="h-4 w-4 mr-2 border rounded-full p-0.5" />
               Retour aux produits
             </Button>
             <nav className="text-sm text-muted-foreground">
               <span>Accueil</span> / <span>{product.category}</span> / <span className="text-foreground">{product.name}</span>
+              {product.shop?.name && (
+                <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 border-2 border-muted rounded-full text-xs">
+                  <span className="text-muted-foreground">Boutique:</span>
+                  <span className="text-foreground font-medium">{product.shop.name}</span>
+                </div>
+              )}
             </nav>
           </div>
 
@@ -105,20 +114,20 @@ const ProductDetails = () => {
                   <>
                     <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={prevImage}
-                        className="bg-background/90 backdrop-blur-md hover:bg-background h-10 w-10 p-0 rounded-full"
+                        className="bg-background/90 backdrop-blur-md hover:bg-background h-10 w-10 p-0 rounded-full border-2"
                       >
-                        <ChevronLeft className="h-5 w-5" />
+                        <ChevronLeft className="h-5 w-5 border rounded-full p-0.5" />
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={nextImage}
-                        className="bg-background/90 backdrop-blur-md hover:bg-background h-10 w-10 p-0 rounded-full"
+                        className="bg-background/90 backdrop-blur-md hover:bg-background h-10 w-10 p-0 rounded-full border-2"
                       >
-                        <ChevronRight className="h-5 w-5" />
+                        <ChevronRight className="h-5 w-5 border rounded-full p-0.5" />
                       </Button>
                     </div>
                     
@@ -207,18 +216,18 @@ const ProductDetails = () => {
               <div className="space-y-4 pt-6">
                 <Button
                   onClick={handleWhatsAppClick}
-                  className="w-full flex items-center justify-center gap-3 py-6 bg-green-500 hover:bg-green-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20"
+                  className="w-full flex items-center justify-center gap-3 py-6 bg-green-500 hover:bg-green-600 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-green-500/20 border-2 border-green-600"
                 >
-                  <MessageCircle className="h-5 w-5" />
+                  <MessageCircle className="h-5 w-5 border rounded-full p-0.5 border-white" />
                   Commander via WhatsApp
                 </Button>
                 
                 <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="py-3">
-                    <ShoppingCart className="h-4 w-4 mr-2" />
+                  <Button variant="outline" className="py-3 border-2">
+                    <ShoppingCart className="h-4 w-4 mr-2 border rounded-full p-0.5" />
                     Ajouter au panier
                   </Button>
-                  <Button variant="ghost" onClick={() => navigate('/')}>
+                  <Button variant="outline" onClick={() => navigate('/')} className="border-2">
                     Continuer mes achats
                   </Button>
                 </div>

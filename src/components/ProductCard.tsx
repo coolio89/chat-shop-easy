@@ -1,4 +1,5 @@
 import { MessageCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export interface Product {
   id: string;
@@ -24,21 +25,17 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, index }: ProductCardProps) => {
-  const handleWhatsAppClick = () => {
-    // Use shop's WhatsApp number if available, otherwise use default
-    const whatsappNumber = product.shop?.whatsapp_number || '22967676767';
-    const message = encodeURIComponent(
-      `Salut! Je suis intéressé par le produit "${product.name}" au prix de ${product.price.toLocaleString()} XOF. Pouvez-vous me donner plus d'informations?`
-    );
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-    window.open(whatsappUrl, '_blank');
+  const navigate = useNavigate();
+
+  const handleProductClick = () => {
+    navigate(`/product/${product.id}`);
   };
 
   return (
     <div 
       className="group cursor-pointer animate-fade-in hover-scale"
       style={{ animationDelay: `${index * 0.1}s` }}
-      onClick={handleWhatsAppClick}
+      onClick={handleProductClick}
     >
       <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-2xl overflow-hidden hover:border-border/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
         {/* Image Container */}
@@ -70,12 +67,12 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
             </div>
           )}
 
-          {/* WhatsApp Overlay - Show on Hover */}
+          {/* Details Overlay - Show on Hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
             <div className="text-center text-foreground">
-              <MessageCircle className="w-12 h-12 mx-auto mb-3 text-primary" />
-              <p className="text-sm font-light tracking-wide">Cliquez pour commander</p>
-              <p className="text-xs text-muted-foreground mt-1">via WhatsApp</p>
+              <MessageCircle className="w-12 h-12 mx-auto mb-3 text-primary border-2 border-primary rounded-full p-2" />
+              <p className="text-sm font-light tracking-wide">Voir les détails</p>
+              <p className="text-xs text-muted-foreground mt-1">du produit</p>
             </div>
           </div>
         </div>
