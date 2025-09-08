@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import CategoryManager from "@/components/CategoryManager";
 import ShopManager from "@/components/ShopManager";
 import { useQuery } from "@tanstack/react-query";
@@ -12,8 +13,8 @@ import ProductForm from "@/components/ProductForm";
 import { useProductManagement } from "@/hooks/useProductManagement";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import CategoryManager from "@/components/CategoryManager";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { Plus, Package, Grid3X3, Edit, Trash2, Settings, ImageIcon } from "lucide-react";
 
 interface Product {
   id: string;
@@ -317,7 +318,7 @@ function DashboardContent() {
                         </p>
                       </div>
                       <Button variant="outline">
-                        <Image className="h-4 w-4 mr-2" />
+                        <ImageIcon className="h-4 w-4 mr-2" />
                         Gérer
                       </Button>
                     </div>
