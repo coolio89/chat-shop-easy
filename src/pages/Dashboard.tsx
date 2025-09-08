@@ -132,15 +132,15 @@ function DashboardContent() {
       <Header />
       <div className="pt-20">
         {/* Dashboard Header */}
-        <div className="border-b bg-card/50 backdrop-blur-sm mb-8">
-          <div className="container mx-auto px-6 py-4">
+        <div className="border-b border-border/50 bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm mb-8 shadow-card">
+          <div className="container mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-light tracking-wide">Dashboard</h1>
-                <p className="text-muted-foreground text-sm">Gestion de votre boutique</p>
+                <h1 className="text-3xl font-light tracking-wide bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Dashboard</h1>
+                <p className="text-muted-foreground text-sm mt-1">Gestion de votre boutique</p>
               </div>
               <Button 
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent border-0 shadow-elegant hover:shadow-hover transition-all duration-300 hover:scale-105"
                 onClick={() => setShowProductForm(true)}
               >
                 <Plus className="h-4 w-4" />
@@ -153,60 +153,84 @@ function DashboardContent() {
         <div className="container mx-auto px-6 py-8">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card>
+            <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card hover:shadow-hover transition-all duration-300 hover:scale-105">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Produits</CardTitle>
-                <Package className="h-4 w-4 text-muted-foreground" />
+                <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                  <Package className="h-4 w-4 text-primary" />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{totalProducts}</div>
+                <div className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{totalProducts}</div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card hover:shadow-hover transition-all duration-300 hover:scale-105">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Nouveautés</CardTitle>
-                <Badge variant="secondary" className="text-xs">Nouveau</Badge>
+                <Badge variant="outline" className="text-xs border-accent/30 text-accent bg-accent/10">Nouveau</Badge>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{newProducts}</div>
+                <div className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{newProducts}</div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card hover:shadow-hover transition-all duration-300 hover:scale-105">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Produits Vedettes</CardTitle>
-                <Badge variant="default" className="text-xs">★</Badge>
+                <Badge variant="outline" className="text-xs border-primary/30 text-primary bg-primary/10">★</Badge>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{featuredProducts}</div>
+                <div className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{featuredProducts}</div>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card hover:shadow-hover transition-all duration-300 hover:scale-105">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Stock Total</CardTitle>
-                <Grid3X3 className="h-4 w-4 text-muted-foreground" />
+                <div className="p-2 rounded-lg bg-accent/10 border border-accent/20">
+                  <Grid3X3 className="h-4 w-4 text-accent" />
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{totalStock}</div>
+                <div className="text-2xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">{totalStock}</div>
               </CardContent>
             </Card>
           </div>
 
           {/* Main Content */}
           <Tabs defaultValue="shop" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="shop">Boutique</TabsTrigger>
-              <TabsTrigger value="products">Produits</TabsTrigger>
-              <TabsTrigger value="categories">Catégories</TabsTrigger>
-              <TabsTrigger value="settings">Paramètres</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4 bg-gradient-to-r from-muted/50 to-muted/30 border border-border/50 shadow-card">
+              <TabsTrigger 
+                value="shop"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-elegant transition-all duration-300"
+              >
+                Boutique
+              </TabsTrigger>
+              <TabsTrigger 
+                value="products"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-elegant transition-all duration-300"
+              >
+                Produits
+              </TabsTrigger>
+              <TabsTrigger 
+                value="categories"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-elegant transition-all duration-300"
+              >
+                Catégories
+              </TabsTrigger>
+              <TabsTrigger 
+                value="settings"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-accent data-[state=active]:text-primary-foreground data-[state=active]:shadow-elegant transition-all duration-300"
+              >
+                Paramètres
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="products">
-              <Card>
+              <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card">
                 <CardHeader>
-                  <CardTitle>Gestion des Produits</CardTitle>
+                  <CardTitle className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Gestion des Produits</CardTitle>
                   <CardDescription>
                     Gérez vos produits, leurs images et détails
                   </CardDescription>
@@ -214,7 +238,7 @@ function DashboardContent() {
                 <CardContent>
                   <div className="space-y-4">
                     {products.map((product) => (
-                      <div key={product.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div key={product.id} className="flex items-center justify-between p-4 border-2 border-border/50 rounded-lg bg-gradient-to-r from-card/50 to-muted/20 hover:shadow-card transition-all duration-300 hover:scale-[1.02]">
                         <div className="flex items-center gap-4">
                           {product.images.length > 0 && (
                             <img
@@ -246,13 +270,14 @@ function DashboardContent() {
                             variant="outline" 
                             size="sm"
                             onClick={() => handleEditProduct(product)}
+                            className="border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-300"
                           >
                             <Edit className="h-4 w-4 mr-2" />
                             Modifier
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="destructive" size="sm">
+                              <Button variant="outline" size="sm" className="border-2 border-destructive/30 text-destructive hover:bg-destructive/10 hover:border-destructive/50 transition-all duration-300">
                                 <Trash2 className="h-4 w-4 mr-2" />
                                 Supprimer
                               </Button>
@@ -283,14 +308,18 @@ function DashboardContent() {
               </Card>
             </TabsContent>
 
+            <TabsContent value="shop">
+              <ShopManager />
+            </TabsContent>
+
             <TabsContent value="categories">
               <CategoryManager />
             </TabsContent>
 
             <TabsContent value="settings">
-              <Card>
+              <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card">
                 <CardHeader>
-                  <CardTitle>Paramètres de la Boutique</CardTitle>
+                  <CardTitle className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Paramètres de la Boutique</CardTitle>
                   <CardDescription>
                     Configurez les paramètres généraux de votre boutique
                   </CardDescription>
@@ -304,7 +333,7 @@ function DashboardContent() {
                           Configurez le numéro WhatsApp pour les commandes
                         </p>
                       </div>
-                      <Button variant="outline">
+                      <Button variant="outline" className="border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-300">
                         <Settings className="h-4 w-4 mr-2" />
                         Configurer
                       </Button>
@@ -317,7 +346,7 @@ function DashboardContent() {
                           Gérez le stockage et l'optimisation des images
                         </p>
                       </div>
-                      <Button variant="outline">
+                      <Button variant="outline" className="border-2 border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 transition-all duration-300">
                         <ImageIcon className="h-4 w-4 mr-2" />
                         Gérer
                       </Button>
