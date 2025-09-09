@@ -67,7 +67,7 @@ const SearchHeader = ({ searchQuery, onSearchChange, categories, activeCategory,
       
       <div className="w-full max-w-lg mx-auto animate-fade-in-up">
         <div className="relative group">
-          <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-all duration-300 group-hover:text-foreground group-focus-within:text-foreground group-focus-within:scale-110" />
+          <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-all duration-300 group-hover:text-foreground group-focus-within:text-foreground" />
           <Input
             placeholder="Rechercher un produit..."
             value={searchQuery}

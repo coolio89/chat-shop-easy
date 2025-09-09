@@ -1,4 +1,3 @@
-import { MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export interface Product {
@@ -71,7 +70,6 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
           <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
             <div className="text-center text-foreground">
               <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full flex items-center justify-center border-2 border-primary/30">
-                <MessageCircle className="w-8 h-8 text-primary" />
               </div>
               <p className="text-sm font-light tracking-wide bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Voir les détails</p>
               <p className="text-xs text-muted-foreground mt-1">Cliquez pour plus d'infos</p>
