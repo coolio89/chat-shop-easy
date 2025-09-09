@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CategoryManager from "@/components/CategoryManager";
 import ShopManager from "@/components/ShopManager";
+import SettingsTab from "@/components/SettingsTab";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
@@ -317,43 +318,7 @@ function DashboardContent() {
             </TabsContent>
 
             <TabsContent value="settings">
-              <Card className="bg-gradient-to-br from-card to-card/80 border-2 border-border/50 shadow-card">
-                <CardHeader>
-                  <CardTitle className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Paramètres de la Boutique</CardTitle>
-                  <CardDescription>
-                    Configurez les paramètres généraux de votre boutique
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-medium">Configuration WhatsApp</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Configurez le numéro WhatsApp pour les commandes
-                        </p>
-                      </div>
-                      <Button variant="outline" className="border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-300">
-                        <Settings className="h-4 w-4 mr-2" />
-                        Configurer
-                      </Button>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-medium">Gestion des Images</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Gérez le stockage et l'optimisation des images
-                        </p>
-                      </div>
-                      <Button variant="outline" className="border-2 border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50 transition-all duration-300">
-                        <ImageIcon className="h-4 w-4 mr-2" />
-                        Gérer
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <SettingsTab />
             </TabsContent>
           </Tabs>
         </div>
