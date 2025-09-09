@@ -30,13 +30,27 @@ export interface UpdateCategoryData {
   description?: string;
 }
 
-export const useProductManagement = () => {
+export const useProductManagement = (onDataChange?: () => void) => {
   const [loading, setLoading] = useState(false);
 
   // Product operations
   const createProduct = async (productData: CreateProductData) => {
     try {
       setLoading(true);
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Utilisateur non connecté');
+
+      // Get user's shop
+      const { data: userShop } = await supabase
+        .from('shops')
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (!userShop) {
+        throw new Error('Vous devez d\'abord créer une boutique pour ajouter des produits');
+      }
       
       // Create product
       const { data: product, error: productError } = await supabase
@@ -46,6 +60,7 @@ export const useProductManagement = () => {
           description: productData.description,
           price: productData.price,
           category_id: productData.category_id,
+          shop_id: userShop.id,
           is_featured: productData.is_featured || false,
           is_new: productData.is_new || false,
           stock_quantity: productData.stock_quantity || 0
@@ -90,6 +105,9 @@ export const useProductManagement = () => {
         title: "Produit créé",
         description: "Le produit a été créé avec succès."
       });
+
+      // Trigger data refresh callback
+      onDataChange?.();
 
       return product;
     } catch (error) {
@@ -167,6 +185,9 @@ export const useProductManagement = () => {
         title: "Produit supprimé",
         description: "Le produit a été supprimé avec succès."
       });
+
+      // Trigger data refresh callback
+      onDataChange?.();
     } catch (error) {
       toast({
         title: "Erreur",
@@ -184,11 +205,15 @@ export const useProductManagement = () => {
     try {
       setLoading(true);
       
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Utilisateur non connecté');
+      
       const { data, error } = await supabase
         .from('categories')
         .insert({
           name: categoryData.name,
-          description: categoryData.description
+          description: categoryData.description,
+          user_id: user.id
         })
         .select()
         .single();
@@ -199,6 +224,9 @@ export const useProductManagement = () => {
         title: "Catégorie créée",
         description: "La catégorie a été créée avec succès."
       });
+
+      // Trigger data refresh callback
+      onDataChange?.();
 
       return data;
     } catch (error) {
@@ -231,6 +259,9 @@ export const useProductManagement = () => {
         title: "Catégorie modifiée",
         description: "La catégorie a été modifiée avec succès."
       });
+
+      // Trigger data refresh callback
+      onDataChange?.();
     } catch (error) {
       toast({
         title: "Erreur",
@@ -258,6 +289,9 @@ export const useProductManagement = () => {
         title: "Catégorie supprimée",
         description: "La catégorie a été supprimée avec succès."
       });
+
+      // Trigger data refresh callback
+      onDataChange?.();
     } catch (error) {
       toast({
         title: "Erreur",

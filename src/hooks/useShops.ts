@@ -57,12 +57,14 @@ export const useShops = () => {
         .from('shops')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error) throw error;
       
       if (data) {
         setUserShop(data);
+      } else {
+        setUserShop(null);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors du chargement de la boutique');

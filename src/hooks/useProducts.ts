@@ -107,8 +107,12 @@ export const useProducts = () => {
     }
   };
 
+  const refetchData = () => {
+    return Promise.all([fetchProducts(), fetchCategories()]);
+  };
+
   useEffect(() => {
-    Promise.all([fetchProducts(), fetchCategories()]);
+    refetchData();
   }, []);
 
   const getNewProducts = () => products.filter(product => product.is_new);
@@ -119,7 +123,7 @@ export const useProducts = () => {
     categories,
     loading,
     error,
-    refetch: () => Promise.all([fetchProducts(), fetchCategories()]),
+    refetch: refetchData,
     getNewProducts,
     getFeaturedProducts
   };

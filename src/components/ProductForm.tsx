@@ -38,7 +38,7 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ categories, product, onSuccess, onCancel }: ProductFormProps) {
-  const { createProduct, updateProduct, loading } = useProductManagement();
+  const { createProduct, updateProduct, loading } = useProductManagement(onSuccess);
   const [formData, setFormData] = useState({
     name: product?.name || "",
     description: product?.description || "",
@@ -154,13 +154,11 @@ export default function ProductForm({ categories, product, onSuccess, onCancel }
           id: product.id,
           ...productData
         });
-        toast.success("Produit mis à jour avec succès");
       } else {
         await createProduct(productData);
-        toast.success("Produit créé avec succès");
       }
       
-      onSuccess();
+      // onSuccess will be called automatically via the hook callback
     } catch (error) {
       console.error('Error saving product:', error);
       toast.error("Erreur lors de la sauvegarde du produit");
