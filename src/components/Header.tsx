@@ -13,7 +13,7 @@ export default function Header() {
         <div className="mr-4 flex">
           <Link className="mr-6 flex items-center space-x-2" to="/">
             <span className="hidden font-bold sm:inline-block">
-              Modern Store
+              MomoShop
             </span>
           </Link>
         </div>
