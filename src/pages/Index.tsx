@@ -62,10 +62,10 @@ const Index = () => {
           <div className="container mx-auto px-6 py-20 relative">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl md:text-6xl font-light tracking-wide mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
-                Découvrez notre Collection MomoShop
+                Découvrez notre Collection
               </h1>
               <p className="text-xl text-muted-foreground font-light mb-8 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                Une boutique moderne avec une sélection soignée de produits de qualité pour tous vos besoins. Explorez nos catégories et trouvez exactement ce que vous cherchez.
+                Une sélection soignée de produits exceptionnels pour sublimer votre quotidien
               </p>
               <div className="flex items-center justify-center gap-4 animate-scale-in" style={{ animationDelay: '0.4s' }}>
                 <div className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-full backdrop-blur-sm">
@@ -132,53 +132,6 @@ const Index = () => {
             </div>
           )}
         </main>
-        
-        {/* Footer Section MomoShop */}
-        <footer className="bg-gradient-to-r from-muted/50 to-background border-t border-border/30 mt-20">
-          <div className="container mx-auto px-6 py-16">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-light tracking-wide mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                MomoShop - Votre Boutique de Confiance
-              </h3>
-              <div className="w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-6"></div>
-              <p className="text-muted-foreground font-light max-w-2xl mx-auto">
-                Chez MomoShop, nous nous engageons à vous offrir une expérience d'achat exceptionnelle avec des produits de qualité, un service client attentionné et une livraison rapide.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full"></div>
-                </div>
-                <h4 className="font-medium mb-2 text-foreground">Qualité Garantie</h4>
-                <p className="text-sm text-muted-foreground">Sélection rigoureuse de produits de haute qualité</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-accent/20 to-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-r from-accent to-primary rounded-full"></div>
-                </div>
-                <h4 className="font-medium mb-2 text-foreground">Service Client</h4>
-                <p className="text-sm text-muted-foreground">Équipe dédiée pour vous accompagner</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full"></div>
-                </div>
-                <h4 className="font-medium mb-2 text-foreground">Livraison Rapide</h4>
-                <p className="text-sm text-muted-foreground">Expédition sous 24h partout au pays</p>
-              </div>
-            </div>
-            
-            <div className="text-center border-t border-border/30 pt-8">
-              <p className="text-sm text-muted-foreground">
-                © 2025 MomoShop. Tous droits réservés. Découvrez notre collection et faites-vous plaisir avec nos produits exceptionnels.
-              </p>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   );
