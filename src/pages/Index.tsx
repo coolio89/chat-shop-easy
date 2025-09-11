@@ -2,18 +2,14 @@ import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import SearchHeader from "@/components/SearchHeader";
 import ProductCard from "@/components/ProductCard";
-import NewProductsSection from "@/components/NewProductsSection";
 import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Tous");
-  const { products, categories: dbCategories, loading, error, getNewProducts } = useProducts();
+  const { products, categories: dbCategories, loading, error } = useProducts();
 
   const categories = ["Tous", ...dbCategories.map(cat => cat.name)];
-  
-  // Products récents pour la section nouveautés
-  const newProducts = getNewProducts();
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -96,8 +92,6 @@ const Index = () => {
           />
         </div>
         
-        {/* Section Nouveautés */}
-        {newProducts.length > 0 && <NewProductsSection products={newProducts} />}
         
         <main className="container mx-auto px-6 py-16">
           <div className="mb-16 text-center animate-fade-in">
