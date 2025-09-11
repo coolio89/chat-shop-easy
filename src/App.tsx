@@ -14,7 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="momoshop-ui-theme">
       <TooltipProvider>
         <AuthProvider>
           <Toaster />
