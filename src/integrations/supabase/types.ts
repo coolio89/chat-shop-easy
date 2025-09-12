@@ -163,13 +163,6 @@ export type Database = {
             referencedRelation: "shops"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "products_shop_id_fkey"
-            columns: ["shop_id"]
-            isOneToOne: false
-            referencedRelation: "shops_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
       profiles: {
@@ -237,33 +230,7 @@ export type Database = {
       }
     }
     Views: {
-      shops_public: {
-        Row: {
-          created_at: string | null
-          description: string | null
-          id: string | null
-          is_active: boolean | null
-          name: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          description?: string | null
-          id?: string | null
-          is_active?: boolean | null
-          name?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          description?: string | null
-          id?: string | null
-          is_active?: boolean | null
-          name?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       [_ in never]: never

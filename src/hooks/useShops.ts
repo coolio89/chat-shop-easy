@@ -12,6 +12,15 @@ export interface Shop {
   updated_at: string;
 }
 
+export interface PublicShop {
+  id: string;
+  name: string;
+  description?: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface CreateShopData {
   name: string;
   description?: string;
@@ -24,7 +33,7 @@ export interface UpdateShopData extends CreateShopData {
 }
 
 export const useShops = () => {
-  const [shops, setShops] = useState<Shop[]>([]);
+  const [shops, setShops] = useState<PublicShop[]>([]);
   const [userShop, setUserShop] = useState<Shop | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,9 +41,10 @@ export const useShops = () => {
   const fetchShops = async () => {
     try {
       setLoading(true);
+      // Only fetch public shop information to prevent WhatsApp number harvesting
       const { data, error } = await supabase
         .from('shops')
-        .select('*')
+        .select('id, name, description, is_active, created_at, updated_at')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
 
